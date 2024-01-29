@@ -1,18 +1,25 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import { AppContext } from '../App';
 
 function Slot({col, row}) {
-    const { gameBoard, correctWord, currPos } = useContext(AppContext);
+    const { gameBoard, correctWord, currPos, setUsedKeys, setCorrectKeys, setOkayKeys } = useContext(AppContext);
     const letter = gameBoard[row][col];
 
     const correct = correctWord[col].toUpperCase() === letter;
     const okay = !correct && letter !== "" && correctWord.toUpperCase().includes(letter.toUpperCase());
 
-    console.log(okay);
-
     const letterState = currPos.row > row && (correct ? "correct" : okay ? "okay" : "default");
 
-    console.log(letterState)
+    useEffect(() => {
+        if (letter !== "" && !correct && !okay) {
+            setUsedKeys((prev) => [...prev, letter]);
+        } else if (letter !== "" && correct) {
+            setCorrectKeys((prev) => [...prev, letter]);
+        } else if (letter !== "" && okay) {
+            setOkayKeys((prev) => [...prev, letter]);
+        }
+    }, [currPos.row]);
+
     return (
         <div className='slot' id={letterState}> {letter} </div>
     )

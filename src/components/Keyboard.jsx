@@ -3,7 +3,7 @@ import Key from './Key';
 import App, { AppContext } from '../App';
 
 function Keyboard() {
-    const {onEnter, onDelete, onLetterDown} = useContext(AppContext);
+    const {onEnter, onDelete, onLetterDown, usedKeys, correctKeys, okayKeys} = useContext(AppContext);
 
     const keyrow1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
     const keyrow2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
@@ -45,18 +45,18 @@ function Keyboard() {
         <div className='keyboard' onKeyDown={handleKeyboard}>
             <div className="topline">
                 {keyrow1.map((key) => {
-                    return <Key keyVal={key}/>;
+                    return <Key keyVal={key} colour={usedKeys.includes(key) ? "used" : correctKeys.includes(key) ? "correctKey" : okayKeys.includes(key) ? "okayKey" : "ignore"}/>;
                 })}
             </div>
             <div className="midline">
                 {keyrow2.map((key) => {
-                    return <Key keyVal={key}/>;
+                    return <Key keyVal={key} colour={usedKeys.includes(key) ? "used" : correctKeys.includes(key) ? "correctKey" : okayKeys.includes(key) ? "okayKey" : "ignore"}/>;
                 })}
             </div>
             <div className="botline">
                 <Key keyVal={"ENTER"} bigKey/>
                 {keyrow3.map((key) => {
-                    return <Key keyVal={key}/>;
+                    return <Key keyVal={key} colour={usedKeys.includes(key) ? "used" : correctKeys.includes(key) ? "correctKey" : okayKeys.includes(key) ? "okayKey" : "ignore"}/>;
                 })}
                 <Key keyVal={"DEL"} bigKey/>
             </div>
