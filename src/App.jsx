@@ -1,34 +1,60 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import GameBoard from './components/GameBoard'
+import Keyboard from './components/Keyboard'
+import { createContext } from 'react'
+import { wordMatrix } from './Tools';
+
+export const AppContext = createContext();
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [gameBoard, setGameBoard] = useState(wordMatrix);
+  const [currPos, setCurrPos] = useState({row: 0, col: 0})
+
+  const correctWord = "words";
+
+  const onLetterDown = (keyVal) => {
+    if (currPos.col >= 5)
+    {
+      return;
+    }
+
+    const newBoard = [...gameBoard];
+    newBoard[currPos.row][currPos.col] = keyVal;
+    setGameBoard(newBoard)
+    setCurrPos({...currPos, col: currPos.col + 1})
+  }
+
+  const onDelete = () => {
+    if (currPos.col == 0)
+    {
+        return;
+    }
+    
+    const newBoard = [...gameBoard];
+    newBoard[currPos.row][currPos.col-1] = "";
+    setGameBoard(newBoard);
+    setCurrPos({...currPos, col: currPos.col - 1})
+  }
+
+  const onEnter = () => {
+      if (currPos.col != 5) {
+          return;
+      }
+      setCurrPos({...currPos, col: 0, row: currPos.row + 1})
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="main">
+      <h1 className="title">Wordle</h1>
+
+      <AppContext.Provider value={{ gameBoard, setGameBoard, currPos, setCurrPos, onLetterDown, onDelete, onEnter, correctWord}}>
+        <div className="center">
+          <GameBoard/>
+          <Keyboard />
+        </div>
+      </AppContext.Provider>
+    </div>
   )
 }
 
