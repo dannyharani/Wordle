@@ -1,12 +1,53 @@
 import React, {useContext, useEffect} from 'react'
 import { AppContext } from '../App';
 
+function getLetterCount(word, letter)
+{
+    let letterCount = 0;
+
+    for (let i = 0; i < word.length; i++)
+    {
+        word.toUpperCase()[i] === letter.toUpperCase() ? letterCount++ : {};
+    }
+
+    return letterCount;
+}
+
 function Slot({col, row}) {
-    const { gameBoard, correctWord, currPos, setUsedKeys, setCorrectKeys, setOkayKeys } = useContext(AppContext);
+    const { gameBoard, correctWord, currPos, setUsedKeys, setCorrectKeys, setOkayKeys, prevGuesses } = useContext(AppContext);
     const letter = gameBoard[row][col];
+    const wordArr = correctWord.split("");
+    const currGuess = prevGuesses[row];
+    
+    const letterMap = new Map();
+
+    wordArr.map(letter => {
+        letterMap.set(letter.toUpperCase(), (letterMap.get(letter.toUpperCase()) ?? 0) + 1);
+    });
 
     const correct = correctWord[col].toUpperCase() === letter;
-    const okay = !correct && letter !== "" && correctWord.toUpperCase().includes(letter.toUpperCase());
+
+    var okay = false;
+
+    if (!correct && correctWord.toUpperCase().includes(letter) && letter !== "")
+    {
+        if (currGuess)
+        {   
+            for (let j = 0; j < col; j++)
+            {
+                if (letter === correctWord.toUpperCase()[j] && row !== j)
+                {
+                    letterMap.set(letter, letterMap.get(letter)-1);
+                }
+            }
+    
+            if (letterMap.get(letter) > 0)
+            {
+                okay = true;
+            }
+        }
+
+    }
 
     const letterState = currPos.row > row && (correct ? "correct" : okay ? "okay" : "default");
 

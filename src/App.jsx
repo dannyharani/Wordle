@@ -10,13 +10,14 @@ export const AppContext = createContext();
 function App() {
   const [gameBoard, setGameBoard] = useState(wordMatrix);
   const [currPos, setCurrPos] = useState({row: 0, col: 0});
+  const [prevGuesses, setPrevGuesses] = useState([]);
   const [wordList, setWordList] = useState(new Set());
   const [usedKeys, setUsedKeys] = useState([]);
   const [correctKeys, setCorrectKeys] = useState([]);
   const [okayKeys, setOkayKeys] = useState([]);
   const [gameOver, setGameOver] = useState({gameOver: false, guessed: false});
 
-  const correctWord = "words";
+  const correctWord = "doors";
 
   useEffect(() => {
     getWordList().then((words) => {
@@ -71,6 +72,7 @@ function App() {
         alert("Win");
       }
 
+      setPrevGuesses((prev) => [...prev, currWord]);
       setCurrPos({...currPos, col: 0, row: currPos.row + 1})
   }
 
@@ -78,7 +80,7 @@ function App() {
     <div className="main">
       <h1 className="title">Wordle</h1>
 
-      <AppContext.Provider value={{ gameBoard, setGameBoard, currPos, setCurrPos, onLetterDown, onDelete, onEnter, correctWord, usedKeys, setUsedKeys, correctKeys, setCorrectKeys, okayKeys, setOkayKeys}}>
+      <AppContext.Provider value={{ gameBoard, setGameBoard, currPos, setCurrPos, onLetterDown, onDelete, onEnter, correctWord, usedKeys, setUsedKeys, correctKeys, setCorrectKeys, okayKeys, setOkayKeys, prevGuesses}}>
         <div className="center">
           <GameBoard/>
           <Keyboard />
