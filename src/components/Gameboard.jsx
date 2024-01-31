@@ -1,8 +1,7 @@
-import React from 'react'
+import {React} from 'react'
 import Slot from './Slot';
 
 function GameBoard() {
-
     return (
         <div className="grid">
             <div className="row">

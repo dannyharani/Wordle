@@ -20,10 +20,14 @@ function App() {
 
   const correctWord = "DOORS";
 
+  const inputRef = useRef(null);
+
   useEffect(() => {
     getWordList().then((words) => {
       setWordList(words.wordList);
     });
+
+    inputRef.current.focus();
   }, []);
 
   const onLetterDown = (keyVal) => {
@@ -88,15 +92,9 @@ function App() {
       setCurrPos({...currPos, col: 0, row: currPos.row + 1})
   }
 
-  const inputRef = useRef(null);
-
-  useEffect(() => {
-      inputRef.current.focus();
-  }, [])
-
   return (
     <div className="main">
-      <input type='text' autoFocus ref={inputRef}/>
+      <input type="text" autoFocus ref={inputRef}/>
       <h1 className="title">Wordle</h1>
 
       <AppContext.Provider value={{ gameBoard, setGameBoard, currPos, setCurrPos, onLetterDown, onDelete, onEnter, correctWord, usedKeys, setUsedKeys, correctKeys, setCorrectKeys, okayKeys, setOkayKeys, prevGuesses}}>
