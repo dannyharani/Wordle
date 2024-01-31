@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import GameBoard from './components/GameBoard'
 import Keyboard from './components/Keyboard'
+import GameOver from './components/GameOver'
 import { createContext } from 'react'
 import { wordMatrix, getWordList } from './Tools';
 
@@ -15,9 +16,9 @@ function App() {
   const [usedKeys, setUsedKeys] = useState([]);
   const [correctKeys, setCorrectKeys] = useState([]);
   const [okayKeys, setOkayKeys] = useState([]);
-  const [gameOver, setGameOver] = useState({gameOver: false, guessed: false});
+  const [winState, setWinState] = useState({gameOver: false, win: false});
 
-  const correctWord = "doors";
+  const correctWord = "DOORS";
 
   useEffect(() => {
     getWordList().then((words) => {
@@ -27,6 +28,11 @@ function App() {
 
   const onLetterDown = (keyVal) => {
     if (currPos.col >= 5)
+    {
+      return;
+    }
+
+    if (winState.gameOver)
     {
       return;
     }
@@ -54,6 +60,11 @@ function App() {
           return;
       }
 
+      if(currPos.row === 4)
+      {
+        setWinState({win: false, gameOver: true});
+      }
+
       let currWord = "";
 
       for(let i = 0; i < 5; i++)
@@ -63,13 +74,14 @@ function App() {
 
       if (!wordList.has(currWord.toLowerCase()))
       {
-        alert("Does not exist - change this to nice popup/animation");
+        // alert("Does not exist - change this to nice popup/animation");
         //return;
       }
 
       if (currWord === correctWord.toUpperCase())
       {
-        alert("Win");
+        setWinState({gameOver: true, win: true});
+        alert("Won")
       }
 
       setPrevGuesses((prev) => [...prev, currWord]);
@@ -83,7 +95,7 @@ function App() {
       <AppContext.Provider value={{ gameBoard, setGameBoard, currPos, setCurrPos, onLetterDown, onDelete, onEnter, correctWord, usedKeys, setUsedKeys, correctKeys, setCorrectKeys, okayKeys, setOkayKeys, prevGuesses}}>
         <div className="center">
           <GameBoard/>
-          <Keyboard />
+          {winState.gameOver ? <GameOver guessCount={currPos.row} win={winState.win} correctWord={correctWord}/> : <Keyboard />}
         </div>
       </AppContext.Provider>
     </div>
