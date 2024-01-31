@@ -15,8 +15,7 @@ function Key({ keyVal, bigKey, colour }) {
     }
 
     return (
-        <div className={'key' + " " + colour} id={bigKey && "big"} onClick={selectKey}>
-            {keyVal}</div>
+        <div className={'key' + " " + colour} id={bigKey && "big"} onClick={selectKey}>{keyVal}</div>
     )
 }
 

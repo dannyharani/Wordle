@@ -92,7 +92,10 @@ function Slot({col, row}) {
     }, [currPos.row]);
 
     return (
-        <div className='slot' id={letterState}> {letter} </div>
+        <div className='slot' id={letterState}>
+            <input type='text'/>
+            {letter} 
+        </div>
     )
 }
 
