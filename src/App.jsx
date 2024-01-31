@@ -60,7 +60,7 @@ function App() {
           return;
       }
 
-      if(currPos.row === 4)
+      if(currPos.row === 5)
       {
         setWinState({win: false, gameOver: true});
       }
@@ -90,6 +90,7 @@ function App() {
 
   return (
     <div className="main">
+      <input type='text' autoFocus />
       <h1 className="title">Wordle</h1>
 
       <AppContext.Provider value={{ gameBoard, setGameBoard, currPos, setCurrPos, onLetterDown, onDelete, onEnter, correctWord, usedKeys, setUsedKeys, correctKeys, setCorrectKeys, okayKeys, setOkayKeys, prevGuesses}}>
