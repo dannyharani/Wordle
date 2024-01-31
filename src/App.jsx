@@ -81,7 +81,7 @@ function App() {
       if (currWord === correctWord.toUpperCase())
       {
         setWinState({gameOver: true, win: true});
-        alert("Won")
+        // alert("Won")
       }
 
       setPrevGuesses((prev) => [...prev, currWord]);
