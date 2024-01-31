@@ -93,7 +93,6 @@ function Slot({col, row}) {
 
     return (
         <div className='slot' id={letterState}>
-            <input type='text'/>
             {letter} 
         </div>
     )

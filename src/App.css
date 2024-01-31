@@ -58,12 +58,13 @@ h1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 5px;
+  margin: 3px;
 }
 
 .key {
-  width: 30px;
-  height: 45px;
+  /* flex: 10%; */
+  width: min(35px, 8vw);
+  height: min(45px, 12vw);
   margin: 5px;
   border-width: 1px;
   border: solid;
@@ -118,23 +119,5 @@ h1 {
 
 .keyboard{
   margin-top: 50px;
-}
-
-input {
-  border: none;
-  background: none;
-  height: 100%;
-  width: 100%;
-  font-size: 0px;
-  display: flex;
-  position: absolute;
-  color: none;
-}
-
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-    outline: none;
-    color: none;
+  width: 100vw;
 }
