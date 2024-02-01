@@ -7,23 +7,64 @@ function getLetterCount(word, letter)
 
     for (let i = 0; i < word.length; i++)
     {
-        word.toUpperCase()[i] === letter.toUpperCase() ? letterCount++ : {};
+        word.toUpperCase()[i] === letter.toUpperCase() ? letterCount++ : {}; // if letter eq. lettercount ++
     }
 
     return letterCount;
 }
 
+function guessesLeft(letter, guessedWord, correctWord, letterCount)
+{
+    let count = letterCount;
+
+    for (let i = 0; i < 5; i++)
+    {
+        if (letter === guessedWord[i] && guessedWord[i] === correctWord[i]) 
+        {
+            count--;
+        }
+    }
+
+    return count;
+}
+
+function isOkay(letter, col, correctWord, guessedWord)
+{
+
+    let validLetterCount = getLetterCount(correctWord, letter);
+
+    // console.log(letter + " " + col + " " + validLetterCount);
+
+    if (validLetterCount === getLetterCount(guessedWord, letter))
+    {
+        return true;
+    }
+
+    if (getLetterCount(guessedWord, letter) > validLetterCount)
+    {
+        if(guessesLeft(letter, guessedWord, correctWord, validLetterCount) <= 0)
+        {
+            return false;
+        }
+
+        if (getLetterCount(guessedWord.substring(0, col), letter) < validLetterCount)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    return true;
+
+}
+
 function Slot({col, row}) {
     const { gameBoard, correctWord, currPos, setUsedKeys, setCorrectKeys, setOkayKeys, prevGuesses } = useContext(AppContext);
-    const letter = gameBoard[row][col];
-    const wordArr = correctWord.split("");
+    const letter = gameBoard[row][col].toUpperCase();
     const currGuess = prevGuesses[row];
-    
-    const letterMap = new Map();
-
-    wordArr.map(letter => {
-        letterMap.set(letter.toUpperCase(), (letterMap.get(letter.toUpperCase()) ?? 0) + 1);
-    });
 
     if (!correctWord[col])
     {
@@ -38,18 +79,7 @@ function Slot({col, row}) {
     {
         if (currGuess)
         {   
-            for (let j = 0; j < col; j++)
-            {
-                if (letter === correctWord.toUpperCase()[j] && row !== j)
-                {
-                    letterMap.set(letter, letterMap.get(letter)-1);
-                }
-            }
-    
-            if (letterMap.get(letter) > 0)
-            {
-                okay = true;
-            }
+            okay = isOkay(letter, col, correctWord.toUpperCase(), currGuess.toUpperCase())
         }
 
     }
@@ -67,7 +97,9 @@ function Slot({col, row}) {
     }, [currPos.row]);
 
     return (
-        <div className='slot' id={letterState}> {letter} </div>
+        <div className='slot' id={letterState}>
+            {letter} 
+        </div>
     )
 }
 

@@ -45,18 +45,18 @@ function Keyboard() {
         <div className='keyboard' onKeyDown={handleKeyboard}>
             <div className="topline">
                 {keyrow1.map((key) => {
-                    return <Key keyVal={key} colour={usedKeys.includes(key) ? "used" : correctKeys.includes(key) ? "correctKey" : okayKeys.includes(key) ? "okayKey" : "ignore"}/>;
+                    return <Key keyVal={key} colour={correctKeys.includes(key) ? "correctKey" : okayKeys.includes(key) ? "okayKey" : usedKeys.includes(key) ? "used" : ""}/>;
                 })}
             </div>
             <div className="midline">
                 {keyrow2.map((key) => {
-                    return <Key keyVal={key} colour={usedKeys.includes(key) ? "used" : correctKeys.includes(key) ? "correctKey" : okayKeys.includes(key) ? "okayKey" : "ignore"}/>;
+                    return <Key keyVal={key} colour={correctKeys.includes(key) ? "correctKey" : okayKeys.includes(key) ? "okayKey" : usedKeys.includes(key) ? "used" : ""}/>;
                 })}
             </div>
             <div className="botline">
                 <Key keyVal={"ENTER"} bigKey/>
                 {keyrow3.map((key) => {
-                    return <Key keyVal={key} colour={usedKeys.includes(key) ? "used" : correctKeys.includes(key) ? "correctKey" : okayKeys.includes(key) ? "okayKey" : "ignore"}/>;
+                    return <Key keyVal={key} colour={correctKeys.includes(key) ? "correctKey" : okayKeys.includes(key) ? "okayKey" : usedKeys.includes(key) ? "used" : ""}/>;
                 })}
                 <Key keyVal={"DEL"} bigKey/>
             </div>

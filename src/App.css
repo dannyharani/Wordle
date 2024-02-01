@@ -1,42 +1,8 @@
 #root {
   margin: 0 auto;
   text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  background-color: rgb(31, 32, 32);
+  color: white;
 }
 
 h1 {
@@ -84,7 +50,9 @@ h1 {
   place-items: center;
   font-size: 30px;
   font-weight: bold;
-  font-family: sans-serif; 
+  font-family: sans-serif;
+  position: relative;
+  color: white;
 
 }
 
@@ -93,12 +61,13 @@ h1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 5px;
+  margin: 3px;
 }
 
 .key {
-  width: 30px;
-  height: 45px;
+  /* flex: 10%; */
+  width: min(35px, 8vw);
+  height: min(45px, 12vw);
   margin: 5px;
   border-width: 1px;
   border: solid;
@@ -153,4 +122,5 @@ h1 {
 
 .keyboard{
   margin-top: 50px;
+  width: 100vw;
 }
