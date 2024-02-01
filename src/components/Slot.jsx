@@ -25,6 +25,11 @@ function Slot({col, row}) {
         letterMap.set(letter.toUpperCase(), (letterMap.get(letter.toUpperCase()) ?? 0) + 1);
     });
 
+    if (!correctWord[col])
+    {
+        return;
+    }
+
     const correct = correctWord[col].toUpperCase() === letter;
 
     var okay = false;

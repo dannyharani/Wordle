@@ -16,12 +16,12 @@ function App() {
   const [correctKeys, setCorrectKeys] = useState([]);
   const [okayKeys, setOkayKeys] = useState([]);
   const [gameOver, setGameOver] = useState({gameOver: false, guessed: false});
-
-  const correctWord = "doors";
+  const [correctWord, setCorrectWord] = useState("");
 
   useEffect(() => {
     getWordList().then((words) => {
       setWordList(words.wordList);
+      setCorrectWord(words.correctWord);
     });
   }, []);
 
@@ -64,7 +64,7 @@ function App() {
       if (!wordList.has(currWord.toLowerCase()))
       {
         alert("Does not exist - change this to nice popup/animation");
-        //return;
+        return;
       }
 
       if (currWord === correctWord.toUpperCase())
