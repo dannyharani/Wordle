@@ -60,10 +60,6 @@ function App() {
           return;
       }
 
-      if(currPos.row === 5)
-      {
-        setWinState({win: false, gameOver: true});
-      }
 
       let currWord = "";
 
@@ -76,6 +72,11 @@ function App() {
       {
         alert("Does not exist - change this to nice popup/animation");
         return;
+      }
+
+      if(currPos.row === 5)
+      {
+        setWinState({win: false, gameOver: true});
       }
 
       if (currWord === correctWord.toUpperCase())
