@@ -96,7 +96,7 @@ function App() {
       <AppContext.Provider value={{ gameBoard, setGameBoard, currPos, setCurrPos, onLetterDown, onDelete, onEnter, correctWord, usedKeys, setUsedKeys, correctKeys, setCorrectKeys, okayKeys, setOkayKeys, prevGuesses}}>
         <div className="center">
           <GameBoard/>
-          {winState.gameOver ? <GameOver guessCount={currPos.row} win={winState.win} correctWord={correctWord}/> : <Keyboard />}
+          {winState.gameOver ? <GameOver guessCount={currPos.row} win={winState.win} correctWord={correctWord.toUpperCase()}/> : <Keyboard />}
         </div>
       </AppContext.Provider>
     </div>
