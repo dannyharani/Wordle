@@ -746,7 +746,6 @@ wider
 grace
 grave
 tides
-taser
 admit
 shift
 sails
@@ -5735,6 +5734,7 @@ pasts
 kelpy
 bocce
 kicky
+taser
 taros
 lings
 dicky
