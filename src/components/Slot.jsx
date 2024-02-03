@@ -66,6 +66,11 @@ function Slot({col, row}) {
     const letter = gameBoard[row][col].toUpperCase();
     const currGuess = prevGuesses[row];
 
+    if (!correctWord[col])
+    {
+        return;
+    }
+
     const correct = correctWord[col].toUpperCase() === letter;
 
     var okay = false;

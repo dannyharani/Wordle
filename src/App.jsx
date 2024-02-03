@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import GameBoard from './components/GameBoard'
 import Keyboard from './components/Keyboard'
@@ -16,13 +16,13 @@ function App() {
   const [usedKeys, setUsedKeys] = useState([]);
   const [correctKeys, setCorrectKeys] = useState([]);
   const [okayKeys, setOkayKeys] = useState([]);
+  const [correctWord, setCorrectWord] = useState("");
   const [winState, setWinState] = useState({gameOver: false, win: false});
-
-  const correctWord = "DOORS";
 
   useEffect(() => {
     getWordList().then((words) => {
       setWordList(words.wordList);
+      setCorrectWord(words.correctWord);
     });
   }, []);
 
@@ -60,10 +60,6 @@ function App() {
           return;
       }
 
-      if(currPos.row === 5)
-      {
-        setWinState({win: false, gameOver: true});
-      }
 
       let currWord = "";
 
@@ -74,8 +70,13 @@ function App() {
 
       if (!wordList.has(currWord.toLowerCase()))
       {
-        // alert("Does not exist - change this to nice popup/animation");
-        //return;
+        alert("Does not exist - change this to nice popup/animation");
+        return;
+      }
+
+      if(currPos.row === 5)
+      {
+        setWinState({win: false, gameOver: true});
       }
 
       if (currWord === correctWord.toUpperCase())
@@ -95,7 +96,7 @@ function App() {
       <AppContext.Provider value={{ gameBoard, setGameBoard, currPos, setCurrPos, onLetterDown, onDelete, onEnter, correctWord, usedKeys, setUsedKeys, correctKeys, setCorrectKeys, okayKeys, setOkayKeys, prevGuesses}}>
         <div className="center">
           <GameBoard/>
-          {winState.gameOver ? <GameOver guessCount={currPos.row} win={winState.win} correctWord={correctWord}/> : <Keyboard />}
+          {winState.gameOver ? <GameOver guessCount={currPos.row} win={winState.win} correctWord={correctWord.toUpperCase()}/> : <Keyboard />}
         </div>
       </AppContext.Provider>
     </div>
