@@ -66,8 +66,8 @@ h1 {
 
 .key {
   /* flex: 10%; */
-  width: min(25px, 6vw);
-  height: min(30px, 10vw);
+  width: min(30px, 8vw);
+  height: min(40px, 12vw);
   margin: 5px;
   border-width: 1px;
   border: solid;
@@ -84,7 +84,8 @@ h1 {
 }
 
 #big {
-  width: 90px;
+  width: 70px;
+  font-size: 15px;
 }
 
 #correct {
@@ -123,4 +124,12 @@ h1 {
 .keyboard{
   margin-top: 50px;
   width: 100vw;
+}
+
+@media only screen and (max-width: 600px) {
+  .keyboard {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 30px;
+  }
 }
