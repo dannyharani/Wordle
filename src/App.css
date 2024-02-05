@@ -1,0 +1,135 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+  background-color: rgb(31, 32, 32);
+  color: white;
+}
+
+h1 {
+  margin-top: 0;
+  padding-top: 30px;
+}
+
+.main {
+  width: 100vw;
+  height: 100vh;
+}
+
+.center {
+  width: 100vw;
+  height: calc(100vh - 190px);
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+  flex-direction: column;
+  margin: 0;
+}
+
+.grid {
+  width: 300px;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  flex: 20%;
+  margin-bottom: 1px;
+  display: flex;
+  flex-direction: row;
+}
+
+.slot {
+  flex: 10%;
+  height: 80%;
+  display: grid;
+  margin: 0 3px 0 3px;
+  border: rgb(102, 102, 102);
+  border-style: solid;
+  border-width: 2px;
+  place-items: center;
+  font-size: 30px;
+  font-weight: bold;
+  font-family: sans-serif;
+  position: relative;
+  color: white;
+
+}
+
+.topline, .midline, .botline {
+  flex: 33%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 3px;
+}
+
+.key {
+  /* flex: 10%; */
+  width: min(30px, 8vw);
+  height: min(40px, 12vw);
+  margin: 5px;
+  border-width: 1px;
+  border: solid;
+  border-radius: 4px;
+  border-color: rgb(94, 94, 94);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  background-color: rgb(94, 94, 94);
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  user-select: none;
+}
+
+#big {
+  width: 70px;
+  font-size: 15px;
+}
+
+#correct {
+  background-color: rgb(41, 110, 56);
+  border-color: rgb(41, 110, 56);
+}
+
+#okay {
+  background-color: rgb(170, 141, 43);
+  border-color: rgb(170, 141, 43);
+}
+
+#default {
+  background-color: rgb(94, 94, 94);
+  border-color: rgb(94, 94, 94);
+}
+
+.okayKey {
+  background-color: rgb(170, 141, 43);
+  border-color: rgb(170, 141, 43);
+}
+
+.correctKey {
+  background-color: rgb(41, 110, 56);
+  border-color: rgb(41, 110, 56);
+}
+
+.used {
+  background-color: rgb(41, 41, 41);
+  border-width: 1px;
+  border: solid;
+  border-radius: 4px;
+  border-color: rgb(59, 59, 59);
+}
+
+.keyboard{
+  margin-top: 50px;
+  width: 100vw;
+}
+
+@media only screen and (max-width: 600px) {
+  .keyboard {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 30px;
+  }
+}
