@@ -132,4 +132,24 @@ h1 {
     bottom: 0;
     margin-bottom: 30px;
   }
+
+  h1 {
+    margin-top: 0;
+    padding-top: 30px;
+  }
+
+  .center {
+    height: calc(100vh - 230px);
+  }
+
+  .grid {
+    width: 300px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slot {
+    font-size: 10;
+  }
 }
