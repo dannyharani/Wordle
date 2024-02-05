@@ -136,7 +136,8 @@ h1 {
   font-weight: 700;
   position: absolute;
   top: 80px;
-  right: 42.5%;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
 @media only screen and (max-width: 600px) {
