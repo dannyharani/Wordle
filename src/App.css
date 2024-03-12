@@ -126,10 +126,44 @@ h1 {
   width: 100vw;
 }
 
+.popup {
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.644);
+  color: black;
+  border-radius: 15px;
+  width: max-content;
+  padding: 8px;
+  font-weight: 700;
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
 @media only screen and (max-width: 600px) {
   .keyboard {
     position: absolute;
     bottom: 0;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+
+  .center {
+    height: calc(100vh - 230px);
+  }
+
+  .grid {
+    width: 300px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slot {
+    font-size: 10;
   }
 }

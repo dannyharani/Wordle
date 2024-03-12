@@ -18,6 +18,7 @@ function App() {
   const [okayKeys, setOkayKeys] = useState([]);
   const [correctWord, setCorrectWord] = useState("");
   const [winState, setWinState] = useState({gameOver: false, win: false});
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     getWordList().then((words) => {
@@ -70,7 +71,10 @@ function App() {
 
       if (!wordList.has(currWord.toLowerCase()))
       {
-        alert("Does not exist - change this to nice popup/animation");
+        setShowPopup(true);
+        setTimeout(() => {
+          setShowPopup(false);
+        }, 2000)
         return;
       }
 
@@ -94,6 +98,7 @@ function App() {
       <h1 className="title">Wordle</h1>
 
       <AppContext.Provider value={{ gameBoard, setGameBoard, currPos, setCurrPos, onLetterDown, onDelete, onEnter, correctWord, usedKeys, setUsedKeys, correctKeys, setCorrectKeys, okayKeys, setOkayKeys, prevGuesses}}>
+        {showPopup && <div className='popup'> Word not in bank </div> }
         <div className="center">
           <GameBoard/>
           {winState.gameOver ? <GameOver guessCount={currPos.row} win={winState.win} correctWord={correctWord.toUpperCase()}/> : <Keyboard />}
