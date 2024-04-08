@@ -5,7 +5,6 @@
 	// authentication
 	import { authStore } from '../store/store';
 	import type { User } from 'firebase/auth';
-	import Authenticate from '../components/Authenticate.svelte';
 
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
@@ -13,6 +12,9 @@
 	import { firebaseAuth } from '$lib/firebase/firebase.app';
 	import { goto } from '$app/navigation';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
+	// Lighswitch
+	import { LightSwitch } from '@skeletonlabs/skeleton';
 
 	onMount(() => {
 		const unsubscribe = firebaseAuth.onAuthStateChanged(async (user) => {
@@ -33,34 +35,41 @@
 		return unsubscribe;
 	});
 
+	let userInitials: string | undefined = '';
+	
 	let currentUser: User | null;
 	authStore.subscribe((value) => {
 		currentUser = value.user;
+		
+		if (!currentUser) return;
+
+		userInitials = currentUser.displayName?.split(' ').map((name) => name[0]).join('');
 	});
 </script>
 
 <AppShell>
 	<svelte:fragment slot="header">
-		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
+		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end" shadow="shadow-lg bg-secondary-backdrop-token">
 			<svelte:fragment slot="lead"
 				><h2 class="h2">
 					<a href="/"> Kabyle Wordle </a>
 				</h2></svelte:fragment
 			>
 			<svelte:fragment slot="trail">
+				<LightSwitch />
+				{#if currentUser}
 				<Avatar
+					initials={userInitials}
 					border="border-4 border-surface-300-600-token hover:!border-primary-500"
 					cursor="cursor-pointer"
 					width="w-12"
 					on:click={() => goto('/profile')}
 				/>
+				{/if}
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 	<!-- ... -->
+	<slot />
 </AppShell>
 
-{#if !currentUser}
-	<Authenticate />
-{/if}
-<slot />
