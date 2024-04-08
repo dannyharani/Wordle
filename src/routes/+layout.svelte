@@ -66,7 +66,7 @@
 					on:click={() => goto('/profile')}
 				/>
 				{:else}
-				<a class="btn variant-filled" href="./profile">Login</a>
+				<a class="btn variant-filled-primary text-token font-semibold" href="./profile">Login</a>
 				{/if}
 			</svelte:fragment>
 		</AppBar>
