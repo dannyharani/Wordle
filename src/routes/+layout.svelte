@@ -65,6 +65,8 @@
 					width="w-12"
 					on:click={() => goto('/profile')}
 				/>
+				{:else}
+				<button class="btn variant-filled-primary text-token font-semibold">Login</button>
 				{/if}
 			</svelte:fragment>
 		</AppBar>
