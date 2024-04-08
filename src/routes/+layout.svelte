@@ -52,7 +52,7 @@
 		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end" shadow="shadow-lg bg-secondary-backdrop-token">
 			<svelte:fragment slot="lead"
 				><h2 class="h2">
-					<a href="/"> Kabyle Wordle </a>
+					<a href="/">Kabyle Wordle</a>
 				</h2></svelte:fragment
 			>
 			<svelte:fragment slot="trail">
@@ -60,11 +60,13 @@
 				{#if currentUser}
 				<Avatar
 					initials={userInitials}
-					border="border-4 border-surface-300-600-token hover:!border-primary-500"
+					border="border-4 border-surface-400-600-token hover:!border-primary-500"
 					cursor="cursor-pointer"
 					width="w-12"
 					on:click={() => goto('/profile')}
 				/>
+				{:else}
+				<a class="btn variant-filled" href="./profile">Login</a>
 				{/if}
 			</svelte:fragment>
 		</AppBar>
