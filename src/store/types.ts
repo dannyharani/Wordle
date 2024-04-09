@@ -1,12 +1,11 @@
 export interface InitialGuesses {
     word: string;
-    usedCount: number;
-    winCount: number;
-    totalGuesses: number;
+    timesUsed: number;
+    timesWon: number;
+    totalGuessesForWin: number;
 }
 
 export interface WordleUserStats {
-    initialGuesses: [InitialGuesses];
     longestWinStreak: number;
     currentWinStreak: number;
     totalGamesPlayed: number;

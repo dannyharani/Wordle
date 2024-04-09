@@ -2,7 +2,7 @@ import { fail } from '@sveltejs/kit';
 import { Game } from './game';
 import type { PageServerLoad, Actions } from '@sveltejs/kit';
 import { firebaseAuth, firebaseFirestore } from '$lib/firebase/firebase.app';
-import { doc, getDoc, increment, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, increment, updateDoc, collection, where, query } from 'firebase/firestore';
 
 export const load = (({ cookies }) => {
 	const game = new Game(cookies.get('wordle'));
@@ -46,13 +46,36 @@ export const actions = {
 
 		const user = data.get('uid') as string;
 
+		console.log(user);
+
         if (user) {
-            // if (game.hints.length === 1) {
-            //     // find and update initial words. If word exists, increment usedCount. If not, add new word.
-            //     // updateDoc(doc(firebaseFirestore, 'wordleUserStats', user), {
+            if (game.hints.length === 1) {
+
+				/* 		if (!firebaseAuth.currentUser?.uid) return;
+
+		const userDoc = doc(firebaseFirestore, 'wordleUserStats', firebaseAuth.currentUser.uid);
+
+		const userDocSnap = await getDoc(userDoc);
+		userData = userDocSnap.data(); */
+
+				const word = guess.join('');
+
+				const userDoc = doc(firebaseFirestore, 'startWords', user);
+
+				const userDocSnap = await getDoc(userDoc);
+				const wordSnap = userDocSnap.data();
+
+				console.log(wordSnap);
+
+				// const userDoc = doc(firebaseFirestore, 'startWords', // where word and user match );
+		
+				// const userDocSnap = await getDoc(userDoc);
+				// userData = userDocSnap.data();
+                // find and update initial words. If word exists, increment usedCount. If not, add new word.
+                // updateDoc(doc(firebaseFirestore, 'wordleUserStats', user), {
                     
-            //     // };
-            // }
+                // };
+            }
 
             if (game.hints[game.hints.length - 1] === 'xxxxx') {
                 // use initial word to update winCount

@@ -3,7 +3,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { signInWithPopup, getAdditionalUserInfo } from 'firebase/auth';
 import { writable } from 'svelte/store';
 import type { User } from 'firebase/auth';
-import type { WordleUserStats } from './types';
+import type { InitialGuesses, WordleUserStats } from './types';
 
 export const authStore = writable<{ user: User | null }>({
 	user: null
@@ -20,12 +20,6 @@ export const authHandlers = {
 
         if (userInfo?.isNewUser) {
             const initializeData: WordleUserStats = {
-                initialGuesses: [{
-                    word: '',
-                    usedCount: 0,
-                    winCount: 0,
-                    totalGuesses: 0
-                }],
                 longestWinStreak: 0,
                 currentWinStreak: 0,
                 totalGamesPlayed: 0,
@@ -33,7 +27,18 @@ export const authHandlers = {
                 dailyStreak: 0,
                 totalGuesses: 0,
             }
+            const initializeWord = {
+                user: [
+                    {
+                        word: 'null',
+                        timesUsed: 0,
+                        timesWon: 0,
+                        totalGuessesForWin: 0
+                    },
+                ]
+            }
             await setDoc(doc(firebaseFirestore, 'wordleUserStats', userRes.user.uid), initializeData);
+            await setDoc(doc(firebaseFirestore, 'startWords', userRes.user.uid), initializeWord);
         }
 
     }
