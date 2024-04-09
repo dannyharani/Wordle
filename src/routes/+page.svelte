@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
 	import type { PageData, ActionData } from './$types';
+	import type { User } from 'firebase/auth';
+	import { authStore } from '../store/store';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -15,6 +18,11 @@
 	$: i = won ? -1 : data.hints.length;
 	$: currentGuess = data.guesses[i] || '';
 	$: submittable = currentGuess.length === 5;
+
+	let currentUser: User | null = null;
+	authStore.subscribe((value) => {
+		currentUser = value.user;
+	});
 
 	let classnames: Record<string, 'exact', 'close', 'wrong'>;
 
@@ -70,16 +78,17 @@
 <svelte:window on:keydown={keydown} />
 
 <form
-	class="h-full flex flex-col align-middle content-evenly py-20"
+	class="h-full flex flex-col align-middle content-evenly py-20 bg-surface-100-800-token"
 	method="POST"
 	action="?/enter"
-	use:enhance={() => {
+	use:enhance={({formData}) => {
+		formData.append('uid', currentUser?.uid ?? '');
 		return ({ update }) => {
 			update({ reset: false });
 		};
 	}}
 >
-	<div class="grid gap-2" class:playing={!won} class:bad-guess={form?.invalidGuess}>
+	<div class="grid gap-1" class:playing={!won} class:bad-guess={form?.invalidGuess}>
 		{#each Array.from(Array(6).keys()) as row (row)}
 			{@const current = row === i}
 			<h2 class="visually-hidden hidden">Row {row + 1}</h2>
@@ -96,7 +105,7 @@
 					<div
 						class="letter {remaining ? '' : 'variant-filled'} {exact
 							? 'variant-filled-success'
-							: ''} {close ? 'variant-outline-success' : ''} {wrong ? 'variant-ghost' : ''}"
+							: ''} {close ? 'variant-ringed-success' : ''} {wrong ? 'variant-ghost' : ''}"
 						class:exact
 						class:close
 						class:wrong
@@ -126,18 +135,19 @@
 			{#if !won && data.answer}
 				<p>the answer was <strong>{data.answer}</strong></p>
 			{/if}
-			<button data-key="enter" class="restart selected" formaction="?/restart">
+			<button data-key="enter" class="btn variant-filled-secondary text-token mt-2" formaction="?/restart">
 				{won ? 'you won :)' : 'game over :('} play again?
 			</button>
 		{:else}
 			<div class="keyboard">
-				<button data-key="enter" class:selected={submittable} disabled={!submittable}>enter</button>
+				<button data-key="enter" class:selected={submittable} disabled={!submittable} class="variant-filled focus:variant-filled-tertiary">enter</button>
 				<button
 					on:click|preventDefault={update}
 					data-key="backspace"
 					formaction="?/update"
 					name="key"
 					value="backspace"
+					class="variant-filled focus:variant-filled-tertiary"
 				>
 					back
 				</button>
@@ -148,7 +158,7 @@
 							<button
 								on:click|preventDefault={update}
 								data-key={key}
-								class={classnames[key]}
+								class="variant-filled focus:variant-filled-tertiary {classnames[key] === 'exact' ? 'variant-filled-success' : ''} {classnames[key] === 'close' ? 'variant-ringed-success text-token' : ''} {classnames[key] === 'wrong' ? 'variant-ghost text-token' : ''}"
 								disabled={submittable}
 								formaction="?/update"
 								name="key"
@@ -165,38 +175,6 @@
 </form>
 
 <style>
-	/* form {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		flex: 1;
-	} */
-
-	.how-to-play {
-		color: var(--color-text);
-	}
-
-	.how-to-play::before {
-		content: 'i';
-		display: inline-block;
-		font-size: 0.8em;
-		font-weight: 900;
-		width: 1em;
-		height: 1em;
-		padding: 0.2em;
-		line-height: 1;
-		border: 1.5px solid var(--color-text);
-		border-radius: 50%;
-		text-align: center;
-		margin: 0 0.5em 0 0;
-		position: relative;
-		top: -0.05em;
-	}
-
 	.grid {
 		--width: min(100vw, 40vh, 380px);
 		max-width: var(--width);
@@ -234,7 +212,7 @@
 		justify-content: center;
 		text-align: center;
 		box-sizing: border-box;
-		text-transform: lowercase;
+		text-transform: uppercase;
 		border: none;
 		font-size: calc(0.08 * var(--width));
 		border-radius: 2px;
@@ -263,15 +241,13 @@
 	.keyboard .row {
 		display: flex;
 		justify-content: center;
-		gap: 0.2rem;
+		gap: 0.3rem;
 		flex: 1;
 	}
 
 	.keyboard button,
 	.keyboard button:disabled {
 		--size: min(8vw, 4vh, 40px);
-		background-color: white;
-		color: black;
 		width: var(--size);
 		border: none;
 		border-radius: 2px;
@@ -279,22 +255,8 @@
 		margin: 0;
 	}
 
-	.keyboard button.exact {
-		background: var(--color-theme-2);
-		color: white;
-	}
-
-	.keyboard button.wrong {
-		opacity: 0.5;
-	}
-
-	.keyboard button.close {
-		border: 2px solid var(--color-theme-2);
-	}
-
 	.keyboard button:focus {
-		background: var(--color-theme-1);
-		color: white;
+		/* background: var(--color-theme-1); */
 		outline: none;
 	}
 
@@ -310,30 +272,15 @@
 	}
 
 	.keyboard button[data-key='enter'] {
-		right: calc(50% + 3.5 * var(--size) + 0.8rem);
+		right: calc(50% + 3.5 * var(--size) + 1.2rem);
 	}
 
 	.keyboard button[data-key='backspace'] {
-		left: calc(50% + 3.5 * var(--size) + 0.8rem);
+		left: calc(50% + 3.5 * var(--size) + 1.2rem);
 	}
 
 	.keyboard button[data-key='enter']:disabled {
 		opacity: 0.5;
-	}
-
-	.restart {
-		width: 100%;
-		padding: 1rem;
-		background: rgba(255, 255, 255, 0.5);
-		border-radius: 2px;
-		border: none;
-	}
-
-	.restart:focus,
-	.restart:hover {
-		background: var(--color-theme-1);
-		color: white;
-		outline: none;
 	}
 
 	@keyframes wiggle {

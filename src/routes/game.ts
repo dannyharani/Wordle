@@ -4,7 +4,7 @@ export class Game {
     index: number;
     guesses: string[];
     hints: string[];
-    hint: string;
+    answer: string;
 
     constructor(wordleSerialized: string | undefined = undefined) {
         if(wordleSerialized) {
@@ -19,7 +19,7 @@ export class Game {
             this.hints = [];
         }
 
-        this.hint = words[this.index];
+        this.answer = words[this.index];
     }
 
     enter(letters: string[]) {
@@ -32,7 +32,7 @@ export class Game {
 
         this.guesses[this.hints.length] = word;
 
-        const available = Array.from(this.hint);
+        const available = Array.from(this.answer);
         const hint = Array(5).fill('_');
 
         for (let i = 0; i < 5; i++) {

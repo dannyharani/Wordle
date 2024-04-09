@@ -17,22 +17,23 @@ export const authHandlers = {
     loginWithGoogle: async () => {
         const userRes = await signInWithPopup(firebaseAuth, googleAuthProvider);
         const userInfo = await getAdditionalUserInfo(userRes)?? null;
-        
+
         if (userInfo?.isNewUser) {
             const initializeData: WordleUserStats = {
                 initialGuesses: [{
                     word: '',
                     usedCount: 0,
-                    winCount: 0
+                    winCount: 0,
+                    totalGuesses: 0
                 }],
                 longestWinStreak: 0,
-                successfulGuessesInRow: 0,
+                currentWinStreak: 0,
                 totalGamesPlayed: 0,
                 totalGamesWon: 0,
-                dailyStreak: 0
+                dailyStreak: 0,
+                totalGuesses: 0,
             }
             await setDoc(doc(firebaseFirestore, 'wordleUserStats', userRes.user.uid), initializeData);
-            console.log('New user initialized');
         }
 
     }
