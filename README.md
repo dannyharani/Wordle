@@ -1,6 +1,6 @@
 # Kabyle Wordle
 Play wordle and learn Amazigh! A native language of North Africa
-[Play Now](https://kabyle-wordle.web.app/)
+[Play Now](https://kabyle-wordle.vercel.app/)
 
 ## Todo
 Add Amazigh words and play-style (I know... But they're hard to find.)

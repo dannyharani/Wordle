@@ -52,11 +52,11 @@
 		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end" shadow="shadow-lg bg-secondary-backdrop-token">
 			<svelte:fragment slot="lead"
 				><h2 class="h2">
-					<a href="/">Kabyle Wordle</a>
+					<a href="/">Kurdle</a>
 				</h2></svelte:fragment
 			>
 			<svelte:fragment slot="trail">
-				<LightSwitch />
+				<LightSwitch width="w-12"/>
 				{#if currentUser}
 				<Avatar
 					initials={userInitials}
