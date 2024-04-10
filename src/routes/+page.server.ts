@@ -94,6 +94,14 @@ export const actions = {
                 const db = firebaseFirestore;
 
                 const startWords = await db.collection('startWords').doc(user).get();
+
+                if (!startWords.exists) {
+                    const wordArray = [
+                        { word: word, timesUsed: 1, timesWon: 0, totalGuessesForWin: 0 }
+                    ];
+                    db.collection('startWords').doc(user).set({ words: wordArray });
+                }
+
                 const wordArray = startWords?.data()?.words;
 
                 const wordToUpdate = wordArray.find((wordObj: wordObj) => wordObj.word === word);

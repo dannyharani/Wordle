@@ -3,7 +3,7 @@
     import '../app.postcss';
 
     // authentication
-    import { authStore } from '../store/store';
+    import { authHandlers, authStore } from '../store/store';
     import type { User } from 'firebase/auth';
 
     // Floating UI for Popups
@@ -72,8 +72,8 @@
                         on:click={() => goto('/profile')}
                     />
                 {:else}
-                    <a class="btn variant-filled-primary text-token font-semibold" href="./profile"
-                        >Profile</a
+                    <button class="btn variant-filled-primary text-token font-semibold" on:click={authHandlers.loginWithGoogle}
+                        >Login</button
                     >
                 {/if}
             </svelte:fragment>
