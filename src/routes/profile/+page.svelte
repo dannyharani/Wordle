@@ -45,12 +45,8 @@
 		const startWordDocSnap = await getDoc(startWordDoc);
 		startWordData = startWordDocSnap.data()?.words.sort(sort);
 
-		console.log(startWordData);
-		
 		if (!startWordData) return;
-		
-		console.log(startWordData);
-	
+			
         paginationSettings = {
             page: 0,
             limit: 5,
@@ -82,7 +78,6 @@
 
 	onAuthStateChanged(firebaseAuth, async (user) => {
 		if (user) {
-			console.log("Changed States")
 			tableSource = await setTableData();
 		}
 	});

@@ -124,8 +124,8 @@ export const actions = {
                         admin.firestore.FieldValue.increment(1)
                     );
             }
-            cookies.set('wordle', game.toString(), { path: '/' });
         }
+		cookies.set('wordle', game.toString(), { path: '/' });
     },
 
     restart: async ({ cookies }) => {
