@@ -102,7 +102,7 @@
                 <h1 class="h1">Hello, {user.displayName?.split(' ')[0]}</h1>
                 <button
                     type="button"
-                    class="btn variant-filled-error"
+                    class="btn variant-ghost-error"
                     on:click={() => {
                         document.cookie = '';
                         authHandlers.logout();
