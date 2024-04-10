@@ -27,18 +27,11 @@ export const authHandlers = {
                 dailyStreak: 0,
                 totalGuesses: 0,
             }
-            const initializeWord = {
-                user: [
-                    {
-                        word: 'null',
-                        timesUsed: 0,
-                        timesWon: 0,
-                        totalGuessesForWin: 0
-                    },
-                ]
-            }
+            const initializeWord = {words: [{word: 'apple', timesUsed: 0, timesWon: 0, totalGuessesForWin: 0}]}
+        
             await setDoc(doc(firebaseFirestore, 'wordleUserStats', userRes.user.uid), initializeData);
             await setDoc(doc(firebaseFirestore, 'startWords', userRes.user.uid), initializeWord);
+            console.log("initialized")
         }
 
     }

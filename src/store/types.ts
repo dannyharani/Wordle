@@ -1,8 +1,9 @@
 export interface InitialGuesses {
-    word: string;
-    timesUsed: number;
-    timesWon: number;
-    totalGuessesForWin: number;
+    word: {
+        timesUsed: number;
+        timesWon: number;
+        totalGuessesTilWin: number;
+    }
 }
 
 export interface WordleUserStats {

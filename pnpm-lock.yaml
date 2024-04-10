@@ -15,7 +15,7 @@ dependencies:
     specifier: ^5.2.0
     version: 5.2.0(@sveltejs/kit@2.5.5)
   firebase:
-    specifier: ^10.6.0
+    specifier: ^10.10.0
     version: 10.10.0
   firebase-admin:
     specifier: ^12.0.0
@@ -5624,3 +5624,4 @@ packages:
   /yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+    requiresBuild: true

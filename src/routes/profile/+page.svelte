@@ -8,9 +8,11 @@
 	import { doc, getDoc } from 'firebase/firestore';
 
 	let user: User | null = null;
-
-	authStore.subscribe((value) => {
+	let userToken: string | undefined = undefined;
+	
+	authStore.subscribe(async (value) => {
 		user = value.user;
+		userToken = await value.user?.getIdToken();
 	});
 
 	let userData: any = null;
@@ -47,20 +49,20 @@
 					}}>Logout</button
 				>
 			</div>
-			<div class="grid grid-cols-4">
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
 				<div
-					class="mt-8 variant-soft-primary py-5 px-8 rounded-3xl aspect-square max-w-[14rem] flex flex-col relative"
+					class="mt-8 variant-soft-primary py-5 px-8 rounded-3xl aspect-square w-[14rem] flex flex-col relative mx-auto"
 				>
 					<h4 class="h4 mb-4 absolute">Games Won</h4>
 					<h1 class="h1 text-center my-auto">{gamesWon}</h1>
 				</div>
 				<div
-					class="mt-8 variant-soft-primary py-5 px-8 rounded-3xl aspect-square max-w-[14rem] flex flex-col relative"
+					class="mt-8 variant-soft-primary py-5 px-8 rounded-3xl aspect-square w-[14rem] flex flex-col relative mx-auto"
 				>
 					<h4 class="h4 mb-4 absolute">Games Played</h4>
 					<h1 class="h1 text-center my-auto">{gamesPlayed}</h1>
 				</div>
-				<div class="mt-8 variant-soft-primary py-5 px-8 rounded-3xl aspect-square max-w-[14rem]">
+				<div class="mt-8 variant-soft-primary py-5 px-8 rounded-3xl aspect-square w-[14rem] mx-auto">
 					<h4 class="h4 mb-4">Wins</h4>
 					<div class="flex justify-center">
 						<ProgressRadial
@@ -75,7 +77,7 @@
 					</div>
 				</div>
 				<div
-					class="mt-8 py-5 px-8 rounded-3xl aspect-square max-w-[14rem] flex flex-col relative {winStreak >=
+					class="mt-8 py-5 px-8 rounded-3xl aspect-square w-[14rem] flex flex-col relative mx-auto {winStreak >=
 					10
 						? 'variant-filled-error'
 						: ''} {winStreak >= 3 && winStreak <= 9 ? 'variant-filled-warning' : ''} {winStreak < 3

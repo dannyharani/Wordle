@@ -20,8 +20,10 @@
 	$: submittable = currentGuess.length === 5;
 
 	let currentUser: User | null = null;
-	authStore.subscribe((value) => {
+	let userToken: string | undefined = undefined
+	authStore.subscribe(async (value) => {
 		currentUser = value.user;
+		userToken = await value.user?.getIdToken();
 	});
 
 	let classnames: Record<string, 'exact', 'close', 'wrong'>;
@@ -82,7 +84,7 @@
 	method="POST"
 	action="?/enter"
 	use:enhance={({formData}) => {
-		formData.append('uid', currentUser?.uid ?? '');
+		formData.append('uid', userToken?.toString() ?? '');
 		return ({ update }) => {
 			update({ reset: false });
 		};
