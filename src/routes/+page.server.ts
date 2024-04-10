@@ -93,13 +93,15 @@ export const actions = {
 
                 const db = firebaseFirestore;
 
-                const startWords = await db.collection('startWords').doc(user).get();
+                let startWords = await db.collection('startWords').doc(user).get();
 
                 if (!startWords.exists) {
                     const wordArray = [
                         { word: word, timesUsed: 1, timesWon: 0, totalGuessesForWin: 0 }
                     ];
                     db.collection('startWords').doc(user).set({ words: wordArray });
+
+                    startWords = await db.collection('startWords').doc(user).get();
                 }
 
                 const wordArray = startWords?.data()?.words;
