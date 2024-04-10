@@ -197,6 +197,12 @@
 		margin: 0 0 0.2rem 0;
 	}
 
+	@media (prefers-reduced-motion: no-preference) {
+		.grid.bad-guess .row.current {
+			animation: wiggle 0.5s;
+		}
+	}
+
 	.grid.playing .row.current {
 		filter: drop-shadow(3px 3px 10px var(--color-bg-0));
 	}
@@ -244,14 +250,12 @@
 
 	.keyboard button,
 	.keyboard button:disabled {
-		aspect-ratio: 1/1;
-		--size: min(8vw, 4vh, 50px);
+		--size: min(8vw, 4vh, 40px);
 		width: var(--size);
 		border: none;
 		border-radius: 2px;
-		font-size: calc(var(--size) * 0.56);
+		font-size: calc(var(--size) * 0.57);
 		margin: 0;
-		text-align: center;
 	}
 
 	.keyboard button:focus {
