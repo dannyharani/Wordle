@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { User } from 'firebase/auth';
+    import { onAuthStateChanged, type User } from 'firebase/auth';
     import { authHandlers, authStore } from '../../store/store';
     import Authenticate from '../../components/Authenticate.svelte';
     import {
@@ -18,6 +18,7 @@
     let userToken: string | undefined = undefined;
     let sortBy: 'timesUsed' | 'timesWon' = 'timesUsed';
     let paginationSettings: PaginationSettings;
+	let showTable: boolean = false;
 
     function sort(a: any, b: any) {
         if (sortBy === 'timesUsed') {
@@ -36,9 +37,20 @@
     let startWordData: any = null;
     let tableSource: TableSource | undefined;
 
-    function setTableData(): TableSource | undefined {
+    async function setTableData(): Promise<TableSource | undefined> {
         if (!firebaseAuth.currentUser?.uid) return;
 
+		const startWordDoc = doc(firebaseFirestore, 'startWords', firebaseAuth.currentUser.uid);
+
+		const startWordDocSnap = await getDoc(startWordDoc);
+		startWordData = startWordDocSnap.data()?.words.sort(sort);
+
+		console.log(startWordData);
+		
+		if (!startWordData) return;
+		
+		console.log(startWordData);
+	
         paginationSettings = {
             page: 0,
             limit: 5,
@@ -65,8 +77,15 @@
         const startWordDocSnap = await getDoc(startWordDoc);
         startWordData = startWordDocSnap.data()?.words.sort(sort);
 
-        tableSource = setTableData();
+        tableSource = await setTableData();
     });
+
+	onAuthStateChanged(firebaseAuth, async (user) => {
+		if (user) {
+			console.log("Changed States")
+			tableSource = await setTableData();
+		}
+	});
 
     $: gamesWon = userData?.totalGamesWon ? userData.totalGamesWon : 0;
     $: gamesPlayed = userData?.totalGamesPlayed ? userData.totalGamesPlayed : 0;
@@ -144,16 +163,18 @@
             </div>
             <div class="mt-6">
                 <h2 class="h2 mb-2">Your Start Words</h2>
-                {#if tableSource}
-                    <Table
-                        interactive={true}
-                        source={tableSource}
-                        text="uppercase font-semibold"
-                        regionHeadCell="h4"
-                    />
-                    <div class="mt-2">
-                        <Paginator settings={paginationSettings} />
-                    </div>
+                {#if tableSourceSlice}
+					{#if tableSource} 
+						<Table
+							interactive={true}
+							source={{head: tableSource.head, body: tableSourceSlice}}
+							text="uppercase font-semibold"
+							regionHeadCell="h4"
+						/>
+						<div class="mt-2">
+							<Paginator settings={paginationSettings} />
+						</div>
+					{/if}
                 {:else}
                     <div class="w-full flex flex-col justify-between gap-2">
                         <div>

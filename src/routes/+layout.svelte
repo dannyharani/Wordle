@@ -53,10 +53,8 @@
 <AppShell>
     <svelte:fragment slot="header">
         <AppBar
-            gridColumns="grid-cols-3"
-            slotDefault="place-self-center"
             slotTrail="place-content-end"
-            shadow="shadow-lg bg-secondary-backdrop-token"
+            shadow="shadow-xl bg-secondary-backdrop-token"
         >
             <svelte:fragment slot="lead"
                 ><h2 class="h2">
@@ -64,7 +62,7 @@
                 </h2></svelte:fragment
             >
             <svelte:fragment slot="trail">
-                <LightSwitch width="w-[48px]" />
+                <LightSwitch />
                 {#if currentUser}
                     <Avatar
                         initials={userInitials}
@@ -75,7 +73,7 @@
                     />
                 {:else}
                     <a class="btn variant-filled-primary text-token font-semibold" href="./profile"
-                        >Login</a
+                        >Profile</a
                     >
                 {/if}
             </svelte:fragment>
