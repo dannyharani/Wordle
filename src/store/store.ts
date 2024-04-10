@@ -3,10 +3,10 @@ import { doc, setDoc } from 'firebase/firestore';
 import { signInWithPopup, getAdditionalUserInfo } from 'firebase/auth';
 import { writable } from 'svelte/store';
 import type { User } from 'firebase/auth';
-import type { InitialGuesses, WordleUserStats } from './types';
+import type { WordleUserStats } from './types';
 
 export const authStore = writable<{ user: User | null }>({
-	user: null
+    user: null
 });
 
 export const authHandlers = {
@@ -16,7 +16,7 @@ export const authHandlers = {
 
     loginWithGoogle: async () => {
         const userRes = await signInWithPopup(firebaseAuth, googleAuthProvider);
-        const userInfo = await getAdditionalUserInfo(userRes)?? null;
+        const userInfo = (await getAdditionalUserInfo(userRes)) ?? null;
 
         if (userInfo?.isNewUser) {
             const initializeData: WordleUserStats = {
@@ -25,14 +25,13 @@ export const authHandlers = {
                 totalGamesPlayed: 0,
                 totalGamesWon: 0,
                 dailyStreak: 0,
-                totalGuesses: 0,
-            }
-            const initializeWord = {words: [{word: 'apple', timesUsed: 0, timesWon: 0, totalGuessesForWin: 0}]}
-        
-            await setDoc(doc(firebaseFirestore, 'wordleUserStats', userRes.user.uid), initializeData);
-            await setDoc(doc(firebaseFirestore, 'startWords', userRes.user.uid), initializeWord);
-            console.log("initialized")
-        }
+                totalGuesses: 0
+            };
 
+            await setDoc(
+                doc(firebaseFirestore, 'wordleUserStats', userRes.user.uid),
+                initializeData
+            );
+        }
     }
-}
+};

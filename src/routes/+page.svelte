@@ -80,11 +80,12 @@
 <svelte:window on:keydown={keydown} />
 
 <form
-	class="h-full flex flex-col align-middle content-evenly py-20 bg-surface-100-800-token"
+	class="h-full flex flex-col align-middle content-evenly py-20 bg-surface-50-900-token"
 	method="POST"
 	action="?/enter"
 	use:enhance={({formData}) => {
 		formData.append('uid', userToken?.toString() ?? '');
+		formData.append('initialGuess', data.guesses[0] ?? '');
 		return ({ update }) => {
 			update({ reset: false });
 		};
@@ -107,7 +108,7 @@
 					<div
 						class="letter {remaining ? '' : 'variant-filled'} {exact
 							? 'variant-filled-success'
-							: ''} {close ? 'variant-ringed-success' : ''} {wrong ? 'variant-ghost' : ''}"
+							: ''} {close ? 'variant-filled-warning' : ''} {wrong ? 'variant-ghost' : ''}"
 						class:exact
 						class:close
 						class:wrong
@@ -160,7 +161,7 @@
 							<button
 								on:click|preventDefault={update}
 								data-key={key}
-								class="variant-filled focus:variant-filled-tertiary {classnames[key] === 'exact' ? 'variant-filled-success' : ''} {classnames[key] === 'close' ? 'variant-ringed-success text-token' : ''} {classnames[key] === 'wrong' ? 'variant-ghost text-token' : ''}"
+								class="variant-filled focus:variant-filled-tertiary {classnames[key] === 'exact' ? 'variant-filled-success' : ''} {classnames[key] === 'close' ? 'variant-filled-warning text-token' : ''} {classnames[key] === 'wrong' ? 'variant-ghost text-token' : ''}"
 								disabled={submittable}
 								formaction="?/update"
 								name="key"

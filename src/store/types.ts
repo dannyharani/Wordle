@@ -3,7 +3,7 @@ export interface InitialGuesses {
         timesUsed: number;
         timesWon: number;
         totalGuessesTilWin: number;
-    }
+    };
 }
 
 export interface WordleUserStats {
