@@ -161,7 +161,7 @@
 							<button
 								on:click|preventDefault={update}
 								data-key={key}
-								class="variant-filled focus:variant-filled-tertiary {classnames[key] === 'exact' ? 'variant-filled-success' : ''} {classnames[key] === 'close' ? 'variant-filled-warning text-token' : ''} {classnames[key] === 'wrong' ? 'variant-ghost text-token' : ''}"
+								class="variant-filled focus:variant-filled-tertiary text-center {classnames[key] === 'exact' ? 'variant-filled-success' : ''} {classnames[key] === 'close' ? 'variant-filled-warning text-token' : ''} {classnames[key] === 'wrong' ? 'variant-ghost text-token opacity-50' : ''}"
 								disabled={submittable}
 								formaction="?/update"
 								name="key"
@@ -195,12 +195,6 @@
 		grid-template-columns: repeat(5, 1fr);
 		grid-gap: 0.2rem;
 		margin: 0 0 0.2rem 0;
-	}
-
-	@media (prefers-reduced-motion: no-preference) {
-		.grid.bad-guess .row.current {
-			animation: wiggle 0.5s;
-		}
 	}
 
 	.grid.playing .row.current {
@@ -250,12 +244,14 @@
 
 	.keyboard button,
 	.keyboard button:disabled {
-		--size: min(8vw, 4vh, 40px);
+		aspect-ratio: 1/1;
+		--size: min(8vw, 4vh, 50px);
 		width: var(--size);
 		border: none;
 		border-radius: 2px;
-		font-size: calc(var(--size) * 0.5);
+		font-size: calc(var(--size) * 0.56);
 		margin: 0;
+		text-align: center;
 	}
 
 	.keyboard button:focus {
