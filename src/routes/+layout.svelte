@@ -58,7 +58,7 @@
         >
             <svelte:fragment slot="lead"
                 ><h2 class="h2">
-                    <a href="/">Kurdle</a>
+                    <a href="/">Windle</a>
                 </h2></svelte:fragment
             >
             <svelte:fragment slot="trail">

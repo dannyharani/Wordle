@@ -39,7 +39,7 @@ export const actions = {
 
         const data = await request.formData();
         const guess = data.getAll('guess') as string[];
-		const initialGuess = data.get('initialGuess') as string;
+        const initialGuess = data.get('initialGuess') as string;
 
         if (!game.enter(guess)) {
             return fail(400, { invalidGuess: true });
@@ -106,7 +106,23 @@ export const actions = {
 
                 const wordArray = startWords?.data()?.words;
 
-                const wordToUpdate = wordArray.find((wordObj: wordObj) => wordObj.word === word);
+                let wordToUpdate = wordArray.find((wordObj: wordObj) => wordObj.word === word);
+
+                if (!wordToUpdate) {
+                    wordToUpdate = {
+                        word: word,
+                        timesUsed: 1,
+                        timesWon: 0,
+                        totalGuessesForWin: 0
+                    };
+
+                    wordArray.push(wordToUpdate);
+
+                    await db.collection('startWords').doc(user).update({ words: wordArray });
+
+                    startWords = await db.collection('startWords').doc(user).get();
+                }
+
                 wordToUpdate.timesWon += 1;
                 wordToUpdate.totalGuessesForWin += game.hints.length;
 
@@ -135,7 +151,7 @@ export const actions = {
                     );
             }
         }
-		cookies.set('wordle', game.toString(), { path: '/' });
+        cookies.set('wordle', game.toString(), { path: '/' });
     },
 
     restart: async ({ cookies }) => {

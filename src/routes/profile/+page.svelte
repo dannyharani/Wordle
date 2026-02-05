@@ -18,7 +18,7 @@
     let userToken: string | undefined = undefined;
     let sortBy: 'timesUsed' | 'timesWon' = 'timesUsed';
     let paginationSettings: PaginationSettings;
-	let showTable: boolean = false;
+    let showTable: boolean = false;
 
     function sort(a: any, b: any) {
         if (sortBy === 'timesUsed') {
@@ -40,13 +40,13 @@
     async function setTableData(): Promise<TableSource | undefined> {
         if (!firebaseAuth.currentUser?.uid) return;
 
-		const startWordDoc = doc(firebaseFirestore, 'startWords', firebaseAuth.currentUser.uid);
+        const startWordDoc = doc(firebaseFirestore, 'startWords', firebaseAuth.currentUser.uid);
 
-		const startWordDocSnap = await getDoc(startWordDoc);
-		startWordData = startWordDocSnap.data()?.words.sort(sort);
+        const startWordDocSnap = await getDoc(startWordDoc);
+        startWordData = startWordDocSnap.data()?.words.sort(sort);
 
-		if (!startWordData) return;
-			
+        if (!startWordData) return;
+
         paginationSettings = {
             page: 0,
             limit: 5,
@@ -76,11 +76,11 @@
         tableSource = await setTableData();
     });
 
-	onAuthStateChanged(firebaseAuth, async (user) => {
-		if (user) {
-			tableSource = await setTableData();
-		}
-	});
+    onAuthStateChanged(firebaseAuth, async (user) => {
+        if (user) {
+            tableSource = await setTableData();
+        }
+    });
 
     $: gamesWon = userData?.totalGamesWon ? userData.totalGamesWon : 0;
     $: gamesPlayed = userData?.totalGamesPlayed ? userData.totalGamesPlayed : 0;
@@ -88,11 +88,6 @@
         ? 0
         : Math.trunc((userData?.totalGamesWon / userData?.totalGamesPlayed) * 100);
     $: winStreak = userData?.currentWinStreak ? userData.currentWinStreak : 0;
-
-    $: tableSourceSlice = tableSource?.body.slice(
-        paginationSettings.page * paginationSettings.limit,
-        paginationSettings.page * paginationSettings.limit + paginationSettings.limit
-    );
 </script>
 
 <div class="h-full p-10 flex justify-center w-full bg-surface-100-800-token">
@@ -158,18 +153,16 @@
             </div>
             <div class="mt-6">
                 <h2 class="h2 mb-2">Your Start Words</h2>
-                {#if tableSourceSlice}
-					{#if tableSource} 
-						<Table
-							interactive={true}
-							source={{head: tableSource.head, body: tableSourceSlice}}
-							text="uppercase font-semibold"
-							regionHeadCell="h4"
-						/>
-						<div class="mt-2">
-							<Paginator settings={paginationSettings} />
-						</div>
-					{/if}
+                {#if tableSource}
+                    <Table
+                        interactive={true}
+                        source={tableSource}
+                        text="uppercase font-semibold"
+                        regionHeadCell="h4"
+                    />
+                    <div class="mt-2">
+                        <Paginator settings={paginationSettings} />
+                    </div>
                 {:else}
                     <div class="w-full flex flex-col justify-between gap-2">
                         <div>
